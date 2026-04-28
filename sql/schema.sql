@@ -1,0 +1,31 @@
+-- Crea la base y tablas para compras iHealth
+
+CREATE DATABASE IF NOT EXISTS ihealth CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE ihealth;
+
+CREATE TABLE IF NOT EXISTS products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  code VARCHAR(10) NOT NULL UNIQUE, -- 'i100' | 'i500'
+  name VARCHAR(100) NOT NULL,
+  price DECIMAL(10,2) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS customers (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(120) NOT NULL,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  telefono VARCHAR(30) NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS purchases (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  customer_id INT NOT NULL,
+  product_id INT NOT NULL,
+  price DECIMAL(10,2) NOT NULL,
+  answers_json JSON NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_purchases_customer FOREIGN KEY (customer_id) REFERENCES customers(id),
+  CONSTRAINT fk_purchases_product FOREIGN KEY (product_id) REFERENCES products(id)
+) ENGINE=InnoDB;
+
