@@ -15,7 +15,7 @@ export async function saveRecommendation(
   record: RecommendationRecord
 ): Promise<number> {
   const query = `
-    INSERT INTO recommendations (int, ex, mot, tech, predicted_band, confidence)
+    INSERT INTO recommendations (\`int\`, \`ex\`, \`mot\`, \`tech\`, predicted_band, confidence)
     VALUES (?, ?, ?, ?, ?, ?)
   `;
 
