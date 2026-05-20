@@ -2,9 +2,10 @@ import pool from "../database/connection";
 
 export interface RecommendationRecord {
   id?: number;
-  hm: string;
-  cel: string;
-  mi: string;
+  int: string;
+  ex: string;
+  mot: string;
+  tech: string;
   predicted_band: string;
   confidence: number;
   created_at?: Date;
@@ -14,14 +15,15 @@ export async function saveRecommendation(
   record: RecommendationRecord
 ): Promise<number> {
   const query = `
-    INSERT INTO recommendations (hm, cel, mi, predicted_band, confidence)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO recommendations (int, ex, mot, tech, predicted_band, confidence)
+    VALUES (?, ?, ?, ?, ?, ?)
   `;
 
   const [result] = await pool.execute(query, [
-    record.hm,
-    record.cel,
-    record.mi,
+    record.int,
+    record.ex,
+    record.mot,
+    record.tech,
     record.predicted_band,
     record.confidence,
   ]);

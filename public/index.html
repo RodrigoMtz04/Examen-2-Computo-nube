@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏋️ Fitness Band Recommendation - AI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🏋️ Fitness Band Recommendation</h1>
+                <p>Descubre cuál es la pulsera fitness perfecta para ti</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Survey Section -->
+            <section id="surveySection" class="section survey-section">
+                <div class="section-content">
+                    <h2>📋 Cuestionario Inteligente</h2>
+
+                    <!-- Progress Bar -->
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                        </div>
+                        <p class="progress-text"><span id="currentQuestion">1</span>/4</p>
+                    </div>
+
+                    <!-- Survey Form -->
+                    <form id="surveyForm" class="survey-form">
+                        <!-- Question 1: HM (Ejercicio) -->
+                        <div class="question-group" id="questionGroup1">
+                            <div class="question-header">
+                                <h3>Pregunta 1: Ejercicio</h3>
+                                <div class="icon-badge">💪</div>
+                            </div>
+                            <p class="question-text" id="q1Text"></p>
+                            <div class="options-container" id="optionsHM"></div>
+                        </div>
+
+                        <!-- Question 2: CEL (Electrónico) -->
+                        <div class="question-group hidden" id="questionGroup2">
+                            <div class="question-header">
+                                <h3>Pregunta 2: Dispositivos Electrónicos</h3>
+                                <div class="icon-badge">📱</div>
+                            </div>
+                            <p class="question-text" id="q2Text"></p>
+                            <div class="options-container" id="optionsCEL"></div>
+                        </div>
+
+                        <!-- Question 3: MI (Motivación) -->
+                        <div class="question-group hidden" id="questionGroup3">
+                            <div class="question-header">
+                                <h3>Pregunta 3: Motivación</h3>
+                                <div class="icon-badge">🎯</div>
+                            </div>
+                            <p class="question-text" id="q3Text"></p>
+                            <div class="options-container" id="optionsMOT"></div>
+                        </div>
+
+                        <!-- Question 4: TECH (Tecnología) -->
+                        <div class="question-group hidden" id="questionGroup4">
+                            <div class="question-header">
+                                <h3>Pregunta 4: Tecnología</h3>
+                                <div class="icon-badge">📱</div>
+                            </div>
+                            <p class="question-text" id="q4Text"></p>
+                            <div class="options-container" id="optionsTECH"></div>
+                        </div>
+
+                        <!-- Navigation Buttons -->
+                        <div class="button-group">
+                            <button type="button" id="prevBtn" class="btn btn-secondary hidden">
+                                ← Anterior
+                            </button>
+                            <button type="button" id="nextBtn" class="btn btn-primary">
+                                Siguiente →
+                            </button>
+                            <button type="submit" id="submitBtn" class="btn btn-success hidden">
+                                🎯 Obtener Recomendación
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="section results-section hidden">
+                <div class="section-content">
+                    <h2>✨ Tu Recomendación</h2>
+
+                    <!-- Result Card -->
+                    <div class="result-card">
+                        <div class="result-header">
+                            <div class="result-icon" id="resultIcon">🎯</div>
+                            <div class="result-info">
+                                <h3 id="recommendedBand">-</h3>
+                                <p class="result-subtitle">Pulsera Recomendada</p>
+                            </div>
+                        </div>
+
+                        <div class="result-body">
+                            <!-- Confidence Card -->
+                            <div class="confidence-card">
+                                <h4>Nivel de Confianza</h4>
+                                <div class="confidence-display">
+                                    <div class="confidence-circle">
+                                        <span id="confidencePercent">0%</span>
+                                    </div>
+                                </div>
+                                <p id="confidenceLevel">-</p>
+                            </div>
+
+                            <!-- Probabilities Chart -->
+                            <div class="probabilities-section">
+                                <h4>📊 Probabilidades por Modelo</h4>
+                                <div id="probabilitiesContainer" class="probabilities-chart"></div>
+                            </div>
+
+                            <!-- Model Details -->
+                            <div class="model-details">
+                                <h4>ℹ️ Detalles del Modelo Recomendado</h4>
+                                <div id="modelDetailsContainer" class="details-grid"></div>
+                            </div>
+
+                            <!-- User Selections -->
+                            <div class="selections-review">
+                                <h4>📝 Tus Respuestas</h4>
+                                <div class="selections-grid">
+                                    <div class="selection-item">
+                                        <span class="label">Interés:</span>
+                                        <span class="value" id="selectedINT">-</span>
+                                    </div>
+                                    <div class="selection-item">
+                                        <span class="label">Ejercicio:</span>
+                                        <span class="value" id="selectedEX">-</span>
+                                    </div>
+                                    <div class="selection-item">
+                                        <span class="label">Motivación:</span>
+                                        <span class="value" id="selectedMOT">-</span>
+                                    </div>
+                                    <div class="selection-item">
+                                        <span class="label">Tecnología:</span>
+                                        <span class="value" id="selectedTECH">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="resetSurvey()">
+                            ↺ Hacer Otro Cuestionario
+                        </button>
+                        <button type="button" class="btn btn-info" onclick="viewHistory()">
+                            📜 Ver Histórico
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section id="historySection" class="section history-section hidden">
+                <div class="section-content">
+                    <h2>📜 Histórico de Recomendaciones</h2>
+
+                    <div id="historyContainer" class="history-container"></div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="hideHistory()">
+                            ← Volver
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading-spinner hidden">
+                <div class="spinner"></div>
+                <p>Procesando tu recomendación...</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🤖 Powered by Naive Bayes Classifier | Recomendaciones Inteligentes</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+

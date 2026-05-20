@@ -7,6 +7,9 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
+    "test-rds": "ts-node test-rds-connection.ts",
+    "init-rds": "ts-node init-rds.ts",
+    "setup-rds": "npm run test-rds && npm run init-rds",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

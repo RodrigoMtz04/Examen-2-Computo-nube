@@ -2,9 +2,10 @@ import { NaiveBayesLaplace, TrainingData, PredictionResult } from "./naiveBayes"
 import { fitnessBands } from "../models/fitnessBands";
 
 export interface SurveyResponse {
-  hm: string;
-  cel: string;
-  mi: string;
+  int: string;
+  ex: string;
+  mot: string;
+  tech: string;
 }
 
 export class RecommendationService {
@@ -17,9 +18,10 @@ export class RecommendationService {
 
   private trainClassifier(): void {
     const features = fitnessBands.map((band) => ({
-      hm: band.hm,
-      cel: band.cel,
-      mi: band.mi,
+      int: band.int,
+      ex: band.ex,
+      mot: band.mot,
+      tech: band.tech,
     }));
 
     const labels = fitnessBands.map((band) => band.name);
@@ -34,9 +36,10 @@ export class RecommendationService {
 
   recommend(response: SurveyResponse): PredictionResult {
     const features = {
-      hm: response.hm,
-      cel: response.cel,
-      mi: response.mi,
+      int: response.int,
+      ex: response.ex,
+      mot: response.mot,
+      tech: response.tech,
     };
 
     return this.classifier.predict(features);
@@ -44,27 +47,34 @@ export class RecommendationService {
 
   getSurveyQuestions() {
     return {
-      hm: {
+      int: {
+        question: "¿Cuál es tu interés principal?",
+        options: [
+          { value: "B", label: "Ambos (Salud y Apariencia)" },
+          { value: "H", label: "Salud" },
+          { value: "A", label: "Apariencia" },
+        ],
+      },
+      ex: {
         question: "¿Cuál es tu nivel de ejercicio actual?",
         options: [
+          { value: "S", label: "Sedentario" },
           { value: "M", label: "Moderado" },
-          { value: "A", label: "Avanzado" },
+          { value: "A", label: "Activo" },
         ],
       },
-      cel: {
-        question: "¿Qué tan acostumbrado estás a los dispositivos electrónicos?",
-        options: [
-          { value: "S", label: "Poco acostumbrado" },
-          { value: "A", label: "Acostumbrado" },
-          { value: "M", label: "Muy acostumbrado" },
-        ],
-      },
-      mi: {
+      mot: {
         question: "¿Qué tan motivado estás?",
         options: [
-          { value: "H", label: "Alta motivación" },
-          { value: "A", label: "Motivación moderada" },
-          { value: "B", label: "Baja motivación" },
+          { value: "M", label: "Moderadamente motivado" },
+          { value: "A", label: "Muy motivado (Agresivo)" },
+        ],
+      },
+      tech: {
+        question: "¿Te sientes cómodo con dispositivos tecnológicos?",
+        options: [
+          { value: "Y", label: "Sí, muy cómodo" },
+          { value: "N", label: "No, prefiero lo simple" },
         ],
       },
     };

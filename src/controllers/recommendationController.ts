@@ -15,22 +15,23 @@ export async function getSurvey(req: Request, res: Response) {
 
 export async function recommend(req: Request, res: Response) {
   try {
-    const { hm, cel, mi } = req.body;
+    const { int, ex, mot, tech } = req.body;
 
-    if (!hm || !cel || !mi) {
+    if (!int || !ex || !mot || !tech) {
       return res.status(400).json({
-        error: "Missing required fields: hm, cel, mi",
+        error: "Missing required fields: int, ex, mot, tech",
       });
     }
 
-    const result = recommendationService.recommend({ hm, cel, mi });
+    const result = recommendationService.recommend({ int, ex, mot, tech });
 
     const confidence = result.probabilities[result.predictedClass] || 0;
 
     const recordId = await saveRecommendation({
-      hm,
-      cel,
-      mi,
+      int,
+      ex,
+      mot,
+      tech,
       predicted_band: result.predictedClass,
       confidence,
     });
